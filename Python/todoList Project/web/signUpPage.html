@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="signUpPage.css">
+    <title>Document</title>
+</head>
+
+    <body>
+        <div class="container" >
+            <div class="card" id = "signUpCard">
+                <a class="signUp">Sign Up</a>
+                <div class="inputBox">
+                    <input type="text" required="required">
+                    <span class="user">Username</span>
+                </div>
+        
+                <div class="inputBox">
+                    <input type="password" required="required"  id = "password">
+                    <span>Password</span>
+                </div>
+
+                <div class="inputBox" >
+                    <input type="password" required="required" id = "passwordCheck">
+                    <span>Confirm Password</span>
+                </div>
+        
+                <button class="enter" onclick="changeWindow()">Enter</button>
+            </div>
+        </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/eel.js"></script>
+    <link rel="stylesheet" href="loginPage.css">
+    <script type="text/javascript" src="script.js"></script>
+    <title>Document</title>
+</head> 
+<body>
+<div class="container">
+    <div class="card" id="loginCard"> 
+        <a class="login">Log in</a>
+        <div class="inputBox">
+            <input type="text" required="required">
+            <span class="user">Username</span>
+        </div>
+
+        <div class="inputBox">
+            <input type="password" required="required">
+            <span>Password</span>
+        </div>
+
+        <button class="enter">Enter</button>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("load", () => { 
+        const loginCard = document.getElementById("loginCard");
+        if (loginCard) {
+            loginCard.classList.add("slide-in");
+        }
+    });
+</script>
+</body>
+</html>
