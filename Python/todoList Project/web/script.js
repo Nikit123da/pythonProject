@@ -1,25 +1,15 @@
-function callPython() {
-    let name = document.getElementById("name").value;
-    
-    eel.say_hello(name)(function(response) 
-    {
-        document.getElementById("output").innerText = response;
-    }
-);
-}
-
-
 async function changeWindow() {
     let password = document.getElementById("password").value;
     let passwordCheck = document.getElementById("passwordCheck").value;
 
-    console.log("Passwords:", password, passwordCheck); // Check values
+    console.log("Passwords:", password, passwordCheck);
 
     let isMatch = await eel.checkPassword(password, passwordCheck)();
-    console.log("Password Match:", isMatch); // Confirm result
+    console.log("Password Match:", isMatch);
 
     if (isMatch) {
         console.log("Sliding out sign-up card...");
+        addUsers();
         document.getElementById("signUpCard").classList.add("slide-out");
 
 
@@ -30,14 +20,19 @@ async function changeWindow() {
                     loginCard.classList.add("slide-in");
                 }
             });
-
-
-
             console.log("Redirecting to login page...");
             window.location.href = "loginPage.html";
 
     } else {
         console.log("Passwords do not match.");
     }
+}
+
+async function addUsers()
+{
+    let password = document.getElementById("password").value;
+    let userName = document.getElementById("userName").value
+
+    await eel.insertUsers(userName,password);
 }
 
