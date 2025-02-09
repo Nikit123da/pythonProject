@@ -30,12 +30,25 @@ def insertUsers(userName, userPassword):
     VALUES
         (%s,%s)
     """ 
-    
-    cursor.execute(insert_user_query, (userName, userPassword))
-    mydb.commit()
 
-    mydb.close()
-    
+    check_for_existing_user_in_query = """
+    SELECT * FROM user
+    WHERE userName = %s AND userPassword = %s
+    """
+
+    cursor.execute(check_for_existing_user_in_query, (userName,userPassword))
+
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        result = 'The user already exists'
+
+    else:
+        cursor.execute(insert_user_query, (userName, userPassword))
+        mydb.commit()
+        result = "User added successfully"
+        
+    return result
 
 
 
@@ -43,8 +56,5 @@ if mydb.is_connected():
     print(f"Successfully connected to MySQL database {0}", format(mydb.database))
 else:
     print("Connection failed")
-
-
-
 
 eel.start("signUpPage.html", size=(1000, 1000),port=8000)
