@@ -122,7 +122,7 @@ body
   
  .slide-out
  {
-    transform: translateX(-1000%); 
+    right: translateX(-1000%); 
     transition: transform 0.5s ease-in-out; 
  } 
 

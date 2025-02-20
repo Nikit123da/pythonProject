@@ -10,20 +10,22 @@
     <title>Document</title>
 </head> 
 <body>
+<div class="welcome-message" id="welcomeMessage">fdsgvasag</div>
+
 <div class="container">
     <div class="card" id="loginCard"> 
         <a class="login">Log in</a>
         <div class="inputBox">
-            <input type="text" required="required">
-            <span class="user">Username</span>
+            <input type="text" required="required" id = "userName">
+            <span class="user" >Username</span>
         </div>
 
         <div class="inputBox">
-            <input type="password" required="required">
+            <input type="password" required="required" id = "password">
             <span>Password</span>
         </div>
 
-        <button class="enter">Enter</button>
+        <button class="enter" onclick="enterHomePage()">Enter</button>
     </div>
 </div>
 

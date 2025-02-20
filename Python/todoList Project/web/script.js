@@ -25,7 +25,6 @@ async function changeWindow() {
     }
 }
 
-
 async function addUsers() {
     let password = document.getElementById("password").value;
     let userName = document.getElementById("userName").value;
@@ -47,8 +46,7 @@ async function addUsers() {
     }
 }
 
-
-async function userCreationNitification(messege)
+async function userCreationNitification(messege)    
 {
     let toast = document.getElementById("toast");
     toast.textContent  = messege;
@@ -68,3 +66,55 @@ async function userCreationNitification(messege)
     
     console.log("text:",toast.textContent);
 }  
+
+function showWelcomeMessage(username) {
+    const message = document.getElementById("welcomeMessage");
+    message.textContent = `Welcome back, ${username}!`;
+    message.classList.add("welcome-animate");
+}
+
+async function enterHomePage()
+{ 
+    let password = document.getElementById("password").value;
+    let userName = document.getElementById("userName").value;
+
+    if(await eel.userExists(userName,password))
+    {
+        showWelcomeMessage(userName);
+
+        setTimeout(() => {
+            window.location.href = "homePage.html";
+        },2000);
+
+    }
+}
+
+
+function inputTask()
+{
+    let popup = document.getElementById("popUpWindow");
+    let addBtn = document.getElementById("addButton");
+    let close = document.getElementById("close");
+
+    addBtn.onclick = function()
+    {
+        popup.style.display = "flex";
+    }
+
+    close.onclick = function()
+    {
+        popup.style.display = "none";
+    }
+    
+}       
+
+
+function addTask()
+{
+    let scrollBar = document.getElementById("scroll_window");
+    console.log("task press");
+    let newTask = document.createElement("div");
+    newTask.classList.add("taskWindow");
+    scrollBar.appendChild(newTask);
+    popUpWindow.style.display = "none";
+}
