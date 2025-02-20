@@ -12,14 +12,16 @@
 <body>
 
   <div class = "popUpWindow" id = "popUpWindow">
-    <div>
+    <div class = "popUpBox">
+
       <span class = "close" id="close">&times;</span>
-      <h2>Enter your task</h2>
-      <textarea>
-          
-      </textarea>
-      <button calss = "verifyTask" id = "verifyTask"
-      onclick="addTask()">&#8593;</button>
+      <h3>Enter your task</h3>
+      <div class = "inputDiv">      
+        <textarea class = "taskText"></textarea>
+        <button calss = "verifyTask" id = "verifyTask"
+        onclick="addTask()">&#8593;</button>
+      </div>
+
     </div>
   </div>
   <div class = "navbar" id = "window">

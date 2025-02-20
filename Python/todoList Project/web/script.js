@@ -105,16 +105,36 @@ function inputTask()
     {
         popup.style.display = "none";
     }
-    
+
+    let taskText = document.getElementById("taskText").value;
+
+    return taskText;
 }       
 
 
-function addTask()
+
+
+
+function addTask(taskText)
 {
     let scrollBar = document.getElementById("scroll_window");
     console.log("task press");
-    let newTask = document.createElement("div");
+    let newTask = createTaskWindow(taskText);
     newTask.classList.add("taskWindow");
+
     scrollBar.appendChild(newTask);
     popUpWindow.style.display = "none";
+}
+
+function createTaskWindow(taskText)
+{
+    let newTask = document.createElement("div");
+    let text = document.createElement("p");
+    let checkbox = document.createElement("input");
+    text.innerText = taskText
+    checkbox.type = "checkbox";
+    newTask.appendChild(checkbox);
+    newTask.appendChild(text);
+
+    return newTask;
 }

@@ -114,12 +114,12 @@ body
     width: 100%;
     height: 100%;
     padding-bottom: 100px;
-    background-color: rgb(255, 255, 255); /* Fallback color */
+    background: #fff;
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
 
   .close {
-    color: #aaaaaa;
+    color: black;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -127,10 +127,44 @@ body
 
   .close:hover,
   .close:focus {
-  color: #000;
+  color: gray;
   text-decoration: none;
   cursor: pointer;  
   }
+
+  .popUpBox
+  {
+    background-color: whitesmoke;
+    width: 70%;
+    height: 30%
+    padding 
+  }
+
+  .inputDiv
+  {
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    border: 3px red solid;
+  }
+
+  textarea
+  {
+    max-width: 70%;
+    max-height: 40%;
+
+  }
+
+  .verifyTask
+  {
+    text-wrap-mode: wrap;
+  }
+
+h3{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
 
 
   
