@@ -18,7 +18,6 @@ mydb = mysql.connector.connect(
 def checkPassword(param1, param2):
     return param1 == param2
 
-
 @eel.expose
 def userExists(userName, userPassword):
     cursor = mydb.cursor()
@@ -50,6 +49,40 @@ def insertUsers(userName, userPassword):
         result = "User added successfully"
         
     return result
+
+def getUserID(userName,userPassword):
+    cursor = mydb.cursor(dictionary=True)
+    getUserID_query = """
+                    select iduser from user where userName = %s and userPassword = %s
+                    """
+    cursor.execute(getUserID_query ,(userName,userPassword))
+
+    user_id = cursor.fetchone()
+    cursor.close()
+
+    if user_id is None:
+        return None  
+
+    return user_id["iduser"]
+    
+
+
+@eel.expose
+def insertTasksIntoDatabase(userName, userPassword, userTask): 
+    userID = getUserID(userName, userPassword)
+    if userID != None:
+        
+        cursor = mydb.cursor()
+        insert_tasks_query = """
+                        INSERT INTO usertasks (idusertasks, tasks) VALUES (%s, %s)
+                            """
+        cursor.execute(insert_tasks_query, (userID, userTask))
+        mydb.commit()
+        cursor.close()
+    else:
+        print("user id is None")
+
+    
 
 if mydb.is_connected():
     print(f"Successfully connected to MySQL database {0}", format(mydb.database))

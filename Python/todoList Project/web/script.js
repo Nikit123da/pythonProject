@@ -1,3 +1,5 @@
+eel.expose(insertTasksIntoDatabase);
+
 async function changeWindow() {
     let password = document.getElementById("password").value;
     let passwordCheck = document.getElementById("passwordCheck").value;
@@ -105,36 +107,67 @@ function inputTask()
     {
         popup.style.display = "none";
     }
-
-    let taskText = document.getElementById("taskText").value;
-
-    return taskText;
 }       
 
-
-
-
-
-function addTask(taskText)
-{
+async function addTask() {
     let scrollBar = document.getElementById("scroll_window");
-    console.log("task press");
+    let popup = document.getElementById("popUpWindow");
+    let taskInput = document.getElementById("taskText");
+
+    let taskText = taskInput.value.trim(); // Get text from textarea
+
+    if (taskText === "") {
+        alert("Please enter a task!"); // Prevent empty tasks
+        return;
+    }
+
+    console.log("Task added:", taskText);
     let newTask = createTaskWindow(taskText);
     newTask.classList.add("taskWindow");
-
     scrollBar.appendChild(newTask);
-    popUpWindow.style.display = "none";
+
+    
+    // Hide popup
+    popup.style.display = "none";
+    
+    await eel.insertTasksIntoDatabase("admin", 111111, taskInput.value);
+    
+    // Clear the input field
+    taskInput.value = "";
 }
 
-function createTaskWindow(taskText)
-{
+function createTaskWindow(taskText) {
     let newTask = document.createElement("div");
     let text = document.createElement("p");
     let checkbox = document.createElement("input");
-    text.innerText = taskText
+
+    text.innerText = taskText;
     checkbox.type = "checkbox";
+
     newTask.appendChild(checkbox);
     newTask.appendChild(text);
 
     return newTask;
 }
+
+function deleteTask()
+{
+        // Get the scroll bar container
+        let scrollBar = document.getElementById("scroll_window");
+
+        // Select all checkboxes within the scroll window
+        let checkboxes = scrollBar.querySelectorAll("input[type='checkbox']");
+    
+        checkboxes.forEach(checkbox => {
+            // If the checkbox is checked, remove its parent div
+            if (checkbox.checked) {
+                scrollBar.removeChild(checkbox.parentElement);
+            }
+        });
+}
+
+
+setInterval(() => 
+{
+    deleteTask();
+},100);
