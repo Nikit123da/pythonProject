@@ -1,8 +1,6 @@
 import eel 
 
 import mysql.connector
-from mysql.connector import connect
-
 
 eel.init("C:\\Users\\97254\\Desktop\\Michlala\\Python\\todoList Project\\web")
 
@@ -13,14 +11,32 @@ mydb = mysql.connector.connect(
     database = "pythonproject",
 )
 
-
 @eel.expose
 def checkPassword(param1, param2):
     return param1 == param2
 
-
 @eel.expose
 def userExists(userName, userPassword):
+    cursor = mydb.cursor(dictionary=True)
+    userExists_query = """
+    select case WHEN EXISTS(SELECT * FROM user WHERE userName = %s and 
+    userPassword = %s) THEN 1 
+        ELSE 0 
+    end as ans
+    """
+
+    cursor.execute(userExists_query, (userName,userPassword))
+    doesExists = cursor.fetchone()
+    cursor.close()
+
+    print(doesExists["ans"])
+
+    if doesExists["ans"] == 1:
+        return True
+    return False
+
+@eel.expose
+def userInfo(userName, userPassword):
     cursor = mydb.cursor()
     check_for_existing_user_in_query = """
         SELECT * FROM user
@@ -41,13 +57,13 @@ def insertUsers(userName, userPassword):
         (%s,%s)
     """ 
 
-    if userExists(userName,userPassword):
+    if userInfo(userName,userPassword):
         result = 'The user already exists'
 
     else:
         cursor.execute(insert_user_query, (userName, userPassword))
         mydb.commit()
-        result = "User added successfully"
+        result = 'User added successfully'
         
     return result
 
@@ -67,7 +83,6 @@ def getUserID(userName,userPassword):
     return user_id["iduser"]
     
 
-
 @eel.expose
 def insertTasksIntoDatabase(userName, userPassword, userTask): 
     userID = getUserID(userName, userPassword)
@@ -84,7 +99,6 @@ def insertTasksIntoDatabase(userName, userPassword, userTask):
         print("user id is None")
 
     
-
 if mydb.is_connected():
     print(f"Successfully connected to MySQL database {0}", format(mydb.database))
 else:

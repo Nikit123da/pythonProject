@@ -6,36 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/eel.js"></script>
     <link rel="stylesheet" href="loginPage.css">
-    <script type="text/javascript" src="script.js"></script>
+    <script defer type="text/javascript" src="script.js"></script>
     <title>Document</title>
 </head> 
 <body>
-<div class="welcome-message" id="welcomeMessage">fdsgvasag</div>
+    <div class="welcome-message" id="welcomeMessage">fdsgvasag</div>
 
-<div class="container">
-    <div class="card" id="loginCard"> 
-        <a class="login">Log in</a>
-        <div class="inputBox">
-            <input type="text" required="required" id = "userName">
-            <span class="user" >Username</span>
+        <div class="container">
+            <div class="card" id="loginCard"> 
+                <a class="login">Log in</a>
+                <div class="inputBox">
+                    <input type="text" required="required" id = "userName">
+                    <span class="user" >Username</span>
+                </div>
+
+                <div class="inputBox">
+                    <input type="password" required="required" id = "password">
+                    <span>Password</span>
+                </div>
+
+                <button class="enter" onclick="enterHomePage()">Enter</button>
+            </div>
         </div>
 
-        <div class="inputBox">
-            <input type="password" required="required" id = "password">
-            <span>Password</span>
-        </div>
+        <div class = "toast" id = "toast"> </div>
 
-        <button class="enter" onclick="enterHomePage()">Enter</button>
-    </div>
-</div>
+    <script>
+        window.addEventListener("load", () => { 
+            const loginCard = document.getElementById("loginCard");
+            if (loginCard) {
+                loginCard.classList.add("slide-in");
+            }
+        });
+    </script>
 
-<script>
-    window.addEventListener("load", () => { 
-        const loginCard = document.getElementById("loginCard");
-        if (loginCard) {
-            loginCard.classList.add("slide-in");
-        }
-    });
-</script>
+
+
 </body>
 </html>
+

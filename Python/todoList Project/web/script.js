@@ -1,6 +1,6 @@
-eel.expose(insertTasksIntoDatabase);
+//eel.expose(insertTasksIntoDatabase);
 
-function toLogin()
+function toLogin()  
 {
     window.location.href = "loginPage.html";
 }
@@ -10,12 +10,46 @@ function toSignUp()
     window.location.href = "signUpPage.html";
 }
 
+async function addUsers() {
+    let password = document.getElementById("password").value;
+    let userName = document.getElementById("userName").value;
+
+    try {
+
+        let executionMessage = await eel.insertUsers(userName, password)();
+
+        userCreationNitification(executionMessage);
+
+        return executionMessage;  
+
+    } catch (error) {
+        console.error("Error communicating with the backend:", error);
+        userCreationNitification("An error occurred. Please try again.");
+        return "An error occurred";  
+    }
+}
+
+//two issues to adress
+//1: the matching of passwords when creating a new user ✅
+//2: the existance of the user that someone tries to create✅
 async function changeFromSingUpWindow() {
+    let userName = document.getElementById("userName").value;
     let password = document.getElementById("password").value;
     let passwordCheck = document.getElementById("passwordCheck").value;
-    let isMatch = await eel.checkPassword(password, passwordCheck)();
+    let isMatch;
 
-    if (isMatch) {
+    if(password.trim() !== "" && passwordCheck.trim() !== "" && userName.trim() !== "")
+    {
+        isMatch = await eel.checkPassword(password, passwordCheck)(); 
+        console.log("there is password and checkpassword");
+    }
+
+    else
+    {
+        userCreationNitification("Fill all of the fields please")
+    }
+
+    if (isMatch) { 
         let executionMessage = await addUsers();  
 
         if (executionMessage === "User added successfully") {
@@ -34,27 +68,6 @@ async function changeFromSingUpWindow() {
         }
     } else {
         console.log("Passwords do not match.");
-    }
-}
-
-async function addUsers() {
-    let password = document.getElementById("password").value;
-    let userName = document.getElementById("userName").value;
-
-    try {
-        let executionMessage = await eel.insertUsers(userName, password)(); 
-
-        if (executionMessage === "The user already exists") {
-            userCreationNitification("The user already exists");
-        } else {
-            userCreationNitification("User added successfully");
-        }
-
-        return executionMessage;  
-    } catch (error) {
-        console.error("Error communicating with the backend:", error);
-        userCreationNitification("An error occurred. Please try again.");
-        return "An error occurred";  
     }
 }
 
@@ -86,18 +99,25 @@ function showWelcomeMessage(username) {
 }
 
 async function enterHomePage()
-{ 
+{
     let password = document.getElementById("password").value;
     let userName = document.getElementById("userName").value;
 
-    if(await eel.userExists(userName,password))
+    let userExists = await eel.userExists(userName,password)();
+    console.log(userExists);
+
+    if(userExists == true)
     {
         showWelcomeMessage(userName);
 
         setTimeout(() => {
             window.location.href = "homePage.html";
         },2000);
+    }
 
+    else
+    {
+        userCreationNitification("User doesn't exist");
     }
 }
 
