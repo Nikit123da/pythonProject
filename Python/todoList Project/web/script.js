@@ -1,6 +1,16 @@
 eel.expose(insertTasksIntoDatabase);
 
-async function changeWindow() {
+function toLogin()
+{
+    window.location.href = "loginPage.html";
+}
+
+function toSignUp()
+{
+    window.location.href = "signUpPage.html";
+}
+
+async function changeFromSingUpWindow() {
     let password = document.getElementById("password").value;
     let passwordCheck = document.getElementById("passwordCheck").value;
     let isMatch = await eel.checkPassword(password, passwordCheck)();
@@ -91,7 +101,6 @@ async function enterHomePage()
     }
 }
 
-
 function inputTask()
 {
     let popup = document.getElementById("popUpWindow");
@@ -165,7 +174,6 @@ function deleteTask()
             }
         });
 }
-
 
 setInterval(() => 
 {

@@ -18,6 +18,7 @@ mydb = mysql.connector.connect(
 def checkPassword(param1, param2):
     return param1 == param2
 
+
 @eel.expose
 def userExists(userName, userPassword):
     cursor = mydb.cursor()
@@ -89,4 +90,4 @@ if mydb.is_connected():
 else:
     print("Connection failed")
 
-eel.start("homePage.html", size=(1000, 1000),port=8000)
+eel.start("choosingStartWindow.html", size=(1000, 1000),port=8000)
