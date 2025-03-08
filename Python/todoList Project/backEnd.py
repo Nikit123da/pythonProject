@@ -77,12 +77,14 @@ def getUserID(userName,userPassword):
     user_id = cursor.fetchone()
     cursor.close()
 
+    print(user_id)
+
     if user_id is None:
         return None  
 
+
     return user_id["iduser"]
     
-
 @eel.expose
 def insertTasksIntoDatabase(userName, userPassword, userTask): 
     userID = getUserID(userName, userPassword)
@@ -98,9 +100,30 @@ def insertTasksIntoDatabase(userName, userPassword, userTask):
     else:
         print("user id is None")
 
-    
+@eel.expose
+def deleteFromDatabase(username, password, task):
+    userId = getUserID(username, password)  # Get user ID from username & password
+    cursor = mydb.cursor()
+    # Disable safe update mode
+    cursor.execute("SET SQL_SAFE_UPDATES = 0;")
+
+    # Delete a single task for the user
+    delete_query = """
+        DELETE FROM usertasks 
+        WHERE idusertasks = %s AND tasks = %s 
+        ORDER BY idusertasks ASC 
+        LIMIT 1;
+    """
+    cursor.execute(delete_query, (userId, task))
+
+    # Re-enable safe update mode
+    cursor.execute("SET SQL_SAFE_UPDATES = 1;")
+
+    mydb.commit()
+    cursor.close()
+
 if mydb.is_connected():
-    print(f"Successfully connected to MySQL database {0}", format(mydb.database))
+    print(f"Successfully connected to MySQL database {0}".format(mydb.database))
 else:
     print("Connection failed")
 

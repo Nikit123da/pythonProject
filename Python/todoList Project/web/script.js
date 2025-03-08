@@ -1,16 +1,15 @@
-//eel.expose(insertTasksIntoDatabase);
 
-function toLogin()  
+function toLogin()  //works
 {
     window.location.href = "loginPage.html";
 }
 
-function toSignUp()
+function toSignUp()//works
 {
     window.location.href = "signUpPage.html";
 }
 
-async function addUsers() {
+async function addUsers() {//works, I think
     let password = document.getElementById("password").value;
     let userName = document.getElementById("userName").value;
 
@@ -28,11 +27,10 @@ async function addUsers() {
         return "An error occurred";  
     }
 }
-
 //two issues to adress
 //1: the matching of passwords when creating a new user ✅
 //2: the existance of the user that someone tries to create✅
-async function changeFromSingUpWindow() {
+async function changeFromSingUpWindow() {//works
     let userName = document.getElementById("userName").value;
     let password = document.getElementById("password").value;
     let passwordCheck = document.getElementById("passwordCheck").value;
@@ -71,7 +69,7 @@ async function changeFromSingUpWindow() {
     }
 }
 
-async function userCreationNitification(messege)    
+async function userCreationNitification(messege)  //works  
 {
     let toast = document.getElementById("toast");
     toast.textContent  = messege;
@@ -92,23 +90,27 @@ async function userCreationNitification(messege)
     console.log("text:",toast.textContent);
 }  
 
-function showWelcomeMessage(username) {
+function showWelcomeMessage(username) { //works
     const message = document.getElementById("welcomeMessage");
     message.textContent = `Welcome back, ${username}!`;
     message.classList.add("welcome-animate");
 }
 
-async function enterHomePage()
+async function enterHomePage() //works
 {
-    let password = document.getElementById("password").value;
-    let userName = document.getElementById("userName").value;
+    let loginUsername = document.getElementById("loginuserName").value;
+    let loginPassword = document.getElementById("loginpassword").value;
 
-    let userExists = await eel.userExists(userName,password)();
+    localStorage.setItem("loginUserName",loginUsername);
+    localStorage.setItem("loginUserPassword",loginPassword);
+
+    let userExists = await eel.userExists(loginUsername,loginPassword)();
+
     console.log(userExists);
 
     if(userExists == true)
     {
-        showWelcomeMessage(userName);
+        showWelcomeMessage(loginUsername);
 
         setTimeout(() => {
             window.location.href = "homePage.html";
@@ -121,7 +123,7 @@ async function enterHomePage()
     }
 }
 
-function inputTask()
+function inputTask() //works
 {
     let popup = document.getElementById("popUpWindow");
     let addBtn = document.getElementById("addButton");
@@ -138,7 +140,7 @@ function inputTask()
     }
 }       
 
-async function addTask() {
+async function addTask() { //works
     let scrollBar = document.getElementById("scroll_window");
     let popup = document.getElementById("popUpWindow");
     let taskInput = document.getElementById("taskText");
@@ -155,17 +157,20 @@ async function addTask() {
     newTask.classList.add("taskWindow");
     scrollBar.appendChild(newTask);
 
-    
     // Hide popup
     popup.style.display = "none";
+
+    let logPass = localStorage.getItem("loginUserPassword");
+    let logName = localStorage.getItem("loginUserName");
+    localStorage.setItem("task",taskInput.value);
     
-    await eel.insertTasksIntoDatabase("admin", 111111, taskInput.value);
+    await eel.insertTasksIntoDatabase(logName, logPass, taskInput.value); //passes null values  
     
     // Clear the input field
     taskInput.value = "";
 }
 
-function createTaskWindow(taskText) {
+function createTaskWindow(taskText) { //works
     let newTask = document.createElement("div");
     let text = document.createElement("p");
     let checkbox = document.createElement("input");
@@ -179,23 +184,31 @@ function createTaskWindow(taskText) {
     return newTask;
 }
 
-function deleteTask()
-{
-        // Get the scroll bar container
-        let scrollBar = document.getElementById("scroll_window");
+document.addEventListener("DOMContentLoaded", function () {
+    let scrollBar = document.getElementById("scroll_window");
 
-        // Select all checkboxes within the scroll window
-        let checkboxes = scrollBar.querySelectorAll("input[type='checkbox']");
-    
-        checkboxes.forEach(checkbox => {
-            // If the checkbox is checked, remove its parent div
-            if (checkbox.checked) {
-                scrollBar.removeChild(checkbox.parentElement);
+    if (!scrollBar) {
+        console.error("scroll_window not found!");
+        return;
+    }
+
+    // Event delegation: listens for changes on checkboxes inside scroll_window
+    scrollBar.addEventListener("change", function (event) {
+        if (event.target.matches("input[type='checkbox']") && event.target.checked) {
+            console.log("Checkbox checked, deleting task...");
+
+            let parentDiv = event.target.parentElement;
+            if (parentDiv) 
+            {
+                parentDiv.remove(); // Remove the task
+                d();
             }
-        });
-}
+        }
+    });
+});
 
-setInterval(() => 
-{
-    deleteTask();
-},100);
+async function d() {
+    await eel.deleteFromDatabase(localStorage.getItem("loginUserName"),
+                                localStorage.getItem("loginUserPassword"),
+                                localStorage.getItem("task"));
+}
