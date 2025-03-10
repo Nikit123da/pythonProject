@@ -1,0 +1,21 @@
+*{box-sizing: border-box;}
+
+body
+{
+    height: 100vh;
+    margin:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.drinksWindow
+{
+    display: flex;
+    overflow-y: scroll;
+    margin-top: 10px;
+    border: 3px red solid;
+    width: 90%;
+    height: 90%;
+}
