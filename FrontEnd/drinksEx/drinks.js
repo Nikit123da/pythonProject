@@ -60,7 +60,15 @@ function putCard(ingridientsArr, messurmentsArr, imgLink, instructions, drinkNam
     let drink = document.querySelector(".drinkName");
     let image = document.querySelector(".img");
     let instr = document.querySelector(".instructions");
-    let table = fillTable(ingridientsArr, messurmentsArr);
+    let template  = document.getElementById("templateID");; //document.getElementById("templateID").content.querySelector();
+
+    if(!template)
+        console.log("null");
+
+    let body = template.content.cloneNode(true);
+
+    fillTable(ingridientsArr, messurmentsArr,body);
+    card.appendChild(table);
     instr.innerHTML = instructions;
     image.src = imgLink;
     drink.innerHTML = drinkName;
@@ -68,10 +76,9 @@ function putCard(ingridientsArr, messurmentsArr, imgLink, instructions, drinkNam
     drinkWindow.appendChild(card);
 }
 
-function fillTable(ingridientsArr, messurmentsArr)
+function fillTable(ingridientsArr, messurmentsArr, tableBody)
 {
     //creates one row at a time with the messurment and ingridient
-    let tableBody = document.querySelectorAll(".tableBody");
 
     let i = 0;
     for(; i < ingridientsArr.length; i++)
